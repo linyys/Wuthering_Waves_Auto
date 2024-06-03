@@ -2,9 +2,11 @@ import keyInput as ki
 import akt
 import localize
 import time
+
+
 def change_map():
     ki.open_map()
-    ki.scroll(-30)
+    ki.scroll(-60)
     ki.scroll(15)
     ki.open_map()
 
@@ -20,9 +22,9 @@ def search_resumption():
 
 timeout = 90
 def go(monster_uid):
-    time.sleep(3)
+    time.sleep(6)
     ki.open_card()
-    if monster_uid == "10" or monster_uid == "11":
+    if monster_uid == "鸣钟之龟":
         localize.monster_list2()
     else:
         localize.monster_list1()
@@ -35,30 +37,31 @@ def go(monster_uid):
     ki.move_mouse_and_click(tl, br)
     tl, br, _ = localize.btn()
     ki.move_mouse_and_click(tl, br)
-    if monster_uid == "11":
-        time.sleep(18)
-    else:
-        time.sleep(8)
-    if monster_uid == "5":
+    return
+    if monster_uid == "鸣钟之龟":
+        time.sleep(10)
+    elif monster_uid == "无冠者":
         ki.search(localize.is_open)
-        time.sleep(8)
-    akt.p_akt()
+    time.sleep(9)
+    akt.p()
     time.sleep(0.6)
     akt.latch()
     now_time = time.time()
+    print(localize.is_dead())
     while localize.is_dead():
         if time.time() - now_time > timeout:
             break
         akt.akt_main()
         time.sleep(1)
-        if localize.is_get():
+    if localize.is_get():
             ki.f()
-        else:
+    else:
             ki.search(localize.is_get)
-        ki.open_map()
-        search_resumption()
-        tl, br, res = localize.resumption_option()
-        if res > 0.95:
-            ki.move_mouse_and_click(tl, br)
-        tl, br, _ = localize.btn()
+    ki.open_map()
+    search_resumption()
+    tl, br, res = localize.resumption_option()
+    if res > 0.95:
         ki.move_mouse_and_click(tl, br)
+    tl, br, _ = localize.btn()
+    ki.move_mouse_and_click(tl, br)
+    

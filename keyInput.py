@@ -1,5 +1,7 @@
 import pyautogui as pg
 import time
+# from pynput import keyboard
+
 def scroll(num):
     scroll_count = 0
     while scroll_count < 67:

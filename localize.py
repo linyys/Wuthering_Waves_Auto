@@ -4,7 +4,9 @@ import pyautogui as pg
 import keyInput as ki
 screen_width, screen_height = pg.size()
 def read_img(src):
-    img = cv2.imread(src, cv2.IMREAD_UNCHANGED)
+    img = cv2.imdecode(np.fromfile(src, dtype=np.uint8), cv2.IMREAD_UNCHANGED)
+    # img = cv2.imread(src, cv2.IMREAD_UNCHANGED)
+    # tmpl = cv2.cvtColor(img, cv2.IMREAD_UNCHANGED)
     alpha = img[:, :, 3]
     tmpl = cv2.cvtColor(img, cv2.COLOR_BGRA2GRAY)
     return img, alpha, tmpl
@@ -23,8 +25,6 @@ def get_local(img, alpha, tmpl):
     return top_left[0] + 7, bottom_right[1] - 7, result.max()
 
 tp_img, tp_alpha, tp_tmpl = read_img("./img/goods/logo2.png")
-
-
 def tp():
     return get_local(tp_img, tp_alpha, tp_tmpl)
 
@@ -56,11 +56,15 @@ def monster_list2():
     ki.move_mouse_and_click(b_tl, b_br)
 
 def monster(name):
+    print("./img/monster/" + name + ".png")
     gw_img, gw_alpha, gw_tmpl = read_img("./img/monster/" + name + ".png")
     tl, br, res = get_local(gw_img, gw_alpha, gw_tmpl)
     if res < 0.98:
         ki.mouse_down()
         return monster(name)
+    # if(screen_width == 1920):
+    #     return tl + (1200 * 0.75), br - (100 * 0.75)
+    # else:
     return tl + 1200, br - 100
 
 resumption_img, resumption__alpha, resumption_tmpl = read_img("./img/goods/resumption.png")
@@ -77,23 +81,14 @@ def resumption_option():
 get_img, get__alpha, get_tmpl = read_img("./img/goods/get_btn.png")
 def is_get():
     tl, br, res = get_local(get_img, get__alpha, get_tmpl)
-    if res > 0.95:
-        return True
-    else:
-        return False
+    return (res > 0.95)
 
 open_img, open_alpha, open_tmpl = read_img("./img/goods/open_btn.png")
 def is_open():
     tl, br, res = get_local(open_img, open_alpha, open_tmpl)
-    if res < 0.84:
-        return False
-    else:
-        return True
+    return res > 0.95
 
 box_img, box__alpha, box_tmpl = read_img("./img/goods/box.png")
 def is_dead():
     tl, br, res = get_local(box_img, box__alpha, box_tmpl)
-    if res < 0.95:
-        return True
-    else:
-        return False
+    return not(res > 0.95)
