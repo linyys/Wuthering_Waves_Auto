@@ -4,21 +4,22 @@
 
 #### 注意事项：
 
-1、鼠标移动到左上角可以退出
+2、鼠标移动到左上角可以退出
 
-2、目前只适配了2k分辨率
+3、目前只适配了2k分辨率
 
 ### python版本：
 
 `Python 3.8.19`
 
 ### 开始使用：
+1、安装Anaconda
 
-1、安装库
+2、安装库
 
-`pip install -r requirements.txt`
+`conda install --yes --file requirements.txt`
 
-2、启动
+3、启动
 
 `python main.py`
 
